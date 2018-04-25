@@ -1,0 +1,31 @@
+buildscript {
+    ext.kotlin_version = '1.2.40'
+
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    //Fill this in with the version of kotlinx in use in your project
+    def kotlinx_html_version = "0.6.9"
+
+    // include for server side
+    compile "org.jetbrains.kotlinx:kotlinx-html-jvm:${kotlinx_html_version}"
+
+    testCompile 'junit:junit:4.12'
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+
+    testCompile 'net.wuerl.kotlin:assertj-core-kotlin:0.2.1'
+    testCompile 'org.assertj:assertj-core:3.9.1'
+}
