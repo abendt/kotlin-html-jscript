@@ -1,26 +1,24 @@
-import kotlinx.html.ScriptType
-import kotlinx.html.body
+import kotlinx.html.*
 import kotlinx.html.dom.createHTMLDocument
 import kotlinx.html.dom.serialize
-import kotlinx.html.script
 import kotlinx.html.stream.appendHTML
-import kotlinx.html.unsafe
 import org.junit.Test
 
 class HtmlScriptTest {
 
     @Test
     fun viaStringBuilder() {
-        val sb = StringBuilder()
-        sb.appendHTML(true).body {
-            script {
-                unsafe {
-                    raw("function my() {return 1;}")
+        val html = buildString {
+            appendHTML(true).body {
+                script {
+                    unsafe {
+                        raw("function my() {return 1;}")
+                    }
                 }
             }
         }
 
-        println(sb.toString())
+        println(html)
     }
 
     @Test
@@ -48,6 +46,25 @@ class HtmlScriptTest {
                         |// <!--
                         | function my() {return 1;}
                         |// -->""".trimMargin())
+                }
+            }
+        }.serialize(true)
+
+        println(html)
+    }
+
+    @Test
+    fun documentBuilderWithScriptWithEntity() {
+        val html = createHTMLDocument().html {
+            body {
+                unsafe {
+                    raw("""
+                        |<script>
+                        |var a = 3;
+                        |var b = -2;
+                        |console.log(a > 0 && b > 0);
+                        |</script>
+                        |""".trimMargin())
                 }
             }
         }.serialize(true)
